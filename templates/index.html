@@ -9,7 +9,7 @@
         var socket = io.connect('http://' + document.domain + ':' + location.port);
 
         socket.on('connect', function () {
-            socket.emit('entities', {'data': 'data'})
+            socket.emit('entities')
         });
 
         function save() {
@@ -20,17 +20,25 @@
         }
 
         socket.on('entities', function (data) {
-            console.log(data);
+            list = document.getElementById("list");
+            for (i in data) {
+                item = document.createElement('li');
+                item.innerHTML = data[i];
+                list.appendChild(item);
+            }
+        });
+
+        socket.on('entity', function (data) {
+            list = document.getElementById("list");
+            item = document.createElement('li');
+            item.innerHTML = data;
+            list.appendChild(item);
         });
     </script>
 </head>
 <body>
 <button onclick="save()">save</button>
-
 <ul id="list">
-    <li>
-
-    </li>
 </ul>
 </body>
 </html>

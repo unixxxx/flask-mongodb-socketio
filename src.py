@@ -28,15 +28,18 @@ def index():
 def save_entity(data):
     try:
         mongo.db.entity.insert_one(data)
+        emit('entity', json.dumps(data, cls=Encoder), broadcast=True)
     except:
         pass
-    emit('entities', json.dumps(data, cls=Encoder), broadcast=True)
 
 
 @socketio.on('entities')
-def get_entities(request):
-    result = [json.dumps(r, cls=Encoder) for r in mongo.db.entity.find()]
-    emit('entities', result)
+def get_entities():
+    try:
+        result = [json.dumps(r, cls=Encoder) for r in mongo.db.entity.find()]
+        emit('entities', result)
+    except:
+        pass
 
 
 if __name__ == '__main__':
