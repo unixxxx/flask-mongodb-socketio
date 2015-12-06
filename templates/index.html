@@ -14,8 +14,12 @@
 
         function save() {
             socket.emit('save_entity', {
-                'longitude': 45.00,
-                'latitude': 45.00,
+                'device_id': new Date().getTime().toString(),
+                'start_time': Date.now(),
+                'location': {
+                    'type': "Point",
+                    'coordinates': [45, 45]
+                }
             });
         }
 
